@@ -227,7 +227,15 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task12_StudentCoursePairs()
     {
-        throw NotImplemented(nameof(Task12_StudentCoursePairs));
+        return UniversityData.Students
+            .Join(UniversityData.Enrollments,
+                s => s.Id,
+                e => e.StudentId,
+                (s, e) => new { s, e })
+            .Join(UniversityData.Courses,
+                se => se.e.CourseId,
+                c => c.Id,
+                (se, c) => $"{se.s.FirstName} | {se.s.LastName} | {c.Title}");
     }
 
     /// <summary>
@@ -242,8 +250,16 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task13_GroupEnrollmentsByCourse()
     {
-        throw NotImplemented(nameof(Task13_GroupEnrollmentsByCourse));
+        return UniversityData.Enrollments
+            .Join(UniversityData.Courses,
+                e => e.CourseId,
+                c => c.Id,
+                (e, c) => new { c.Title }
+            )
+            .GroupBy(a => a.Title)
+            .Select(g => $"{g.Key} | {g.Count()}");
     }
+
 
     /// <summary>
     /// Task:
