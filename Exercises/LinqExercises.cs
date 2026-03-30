@@ -96,7 +96,9 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task05_IsThereAnyInactiveEnrollment()
     {
-        bool IsInactive = UniversityData.Enrollments.Any(e => !e.IsActive);
+        bool IsInactive = UniversityData.Enrollments
+            .Any(e => !e.IsActive);
+        
         return [IsInactive ? "Yes" : "No"];
     }
 
@@ -113,8 +115,12 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task06_DoAllLecturersHaveDepartment()
     {
-        throw NotImplemented(nameof(Task06_DoAllLecturersHaveDepartment));
+        bool allHaveDept = UniversityData.Lecturers
+            .All(l => !string.IsNullOrWhiteSpace(l.Department));
+
+        return [allHaveDept ? "Yes" : "No"];
     }
+
 
     /// <summary>
     /// Task:
@@ -127,8 +133,12 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task07_CountActiveEnrollments()
     {
-        throw NotImplemented(nameof(Task07_CountActiveEnrollments));
+        int count = UniversityData.Enrollments
+            .Count(e => e.IsActive);
+
+        return [count.ToString()];
     }
+
 
     /// <summary>
     /// Task:
@@ -141,7 +151,10 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task08_DistinctStudentCities()
     {
-        throw NotImplemented(nameof(Task08_DistinctStudentCities));
+        return UniversityData.Students
+            .Select(s => s.City)
+            .Distinct()
+            .OrderBy(city => city);
     }
 
     /// <summary>
@@ -156,7 +169,10 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task09_ThreeNewestEnrollments()
     {
-        throw NotImplemented(nameof(Task09_ThreeNewestEnrollments));
+        return UniversityData.Enrollments
+            .OrderByDescending(e => e.EnrollmentDate)
+            .Take(3)
+            .Select(e => e.EnrollmentDate.ToString("yyyy-mm-dd"));
     }
 
     /// <summary>
@@ -172,7 +188,11 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task10_SecondPageOfCourses()
     {
-        throw NotImplemented(nameof(Task10_SecondPageOfCourses));
+        return UniversityData.Courses
+            .OrderBy(c =>c.Title)
+            .Skip(2)
+            .Take(1)
+            .Select(c => $"{c.Title} | {c.Category}");
     }
 
     /// <summary>
