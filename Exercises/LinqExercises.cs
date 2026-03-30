@@ -72,8 +72,15 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task04_FirstAnalyticsCourse()
     {
-        throw NotImplemented(nameof(Task04_FirstAnalyticsCourse));
+        var course = UniversityData.Courses
+            .FirstOrDefault(c => c.Category == "Analytics");
+
+        if (course is null)
+            return ["No ourse found."];
+
+        return [$"{course.Title} | starts: {course.StartDate:yyyy-mm-dd}"];
     }
+
 
     /// <summary>
     /// Task:
@@ -89,8 +96,10 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task05_IsThereAnyInactiveEnrollment()
     {
-        throw NotImplemented(nameof(Task05_IsThereAnyInactiveEnrollment));
+        bool IsInactive = UniversityData.Enrollments.Any(e => !e.IsActive);
+        return [IsInactive ? "Yes" : "No"];
     }
+
 
     /// <summary>
     /// Task:
